@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\KriteriaController;
 use App\Http\Controllers\StudiKasusController;
+use App\Http\Controllers\AlternatifController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,4 +20,8 @@ Route::get('/', function () {
     return view('layouts.app');
 });
 
+Route::resource('kriteria', KriteriaController::class);
+Route::resource('alternatif', AlternatifController::class);
 Route::resource('studi-kasus', StudiKasusController::class);
+Route::get('studi-kasus/{id}/alternatif', [StudiKasusController::class, 'showAlternatif'])->name('studi-kasus.alternatif');
+Route::post('/tambah-alternatif', [AlternatifController::class, 'tambahAlternatif'])->name('tambah.alternatif');
