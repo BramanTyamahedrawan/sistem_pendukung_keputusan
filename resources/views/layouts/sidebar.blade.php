@@ -44,7 +44,7 @@
                 <li class="sidebar-title">Menu</li>
 
                 <li class="sidebar-item">
-                    <a href="index.html" class='sidebar-link'>
+                    <a href="{{ route('studi-kasus.index') }}" class='sidebar-link'>
                         <i class="bi bi-grid-fill"></i>
                         <span>Studi Kasus</span>
                     </a>
@@ -56,7 +56,6 @@
                         <span>Matriks Keputusan</span>
                     </a>
                 </li>
-
             </ul>
         </div>
     </div>
