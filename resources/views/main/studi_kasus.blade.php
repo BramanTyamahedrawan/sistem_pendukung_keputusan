@@ -3,6 +3,7 @@
 @section('title', 'Studi Kasus')
 
 @section('content')
+
     @if (session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             {{ session('success') }}
@@ -12,7 +13,7 @@
 
     <div class="modal fade" id="tambahAlternatifModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Tambah Alternatif</h5>
@@ -117,12 +118,15 @@
             </div>
         </div>
     </div>
+
     <script src="assets/static/js/components/dark.js"></script>
     <script src="assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
     <script src="assets/compiled/js/app.js"></script>
-    <!-- Pastikan jQuery dan Bootstrap telah dimasukkan sebelum file JS Anda -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="assets/static/js/pages/sweetalert2.js"></script>
+    <script src="assets/extensions/sweetalert2/sweetalert2.min.js"></script>
+    <script src="assets/static/js/pages/sweetalert2.js"></script>
 
     <script>
         $(document).ready(function() {
@@ -143,14 +147,18 @@
                     type: 'POST',
                     data: formData,
                     success: function(data) {
-                        // Tambahkan logika penanganan setelah berhasil menambahkan data, jika diperlukan
-                        console.log('Alternatif berhasil ditambahkan:', data);
+                        // Gantilah alert bawaan browser dengan SweetAlert
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Alternatif berhasil ditambahkan!',
+                            showConfirmButton: false,
+                            timer: 1000
+                        }).then((result) => {
+                            location.reload();
+                        });
 
                         // Tutup modal
                         $('#tambahAlternatifModal').modal('hide');
-
-                        // Refresh halaman
-                        location.reload();
                     },
                     error: function(error) {
                         console.error('Error:', error);
