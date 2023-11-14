@@ -13,7 +13,7 @@ class StudiKasusController extends Controller
         $alternatifs = Alternatif::all();
         $kriterias = Kriteria::all();
 
-        return view('main.studi_kasus', compact('alternatifs'));
+        return view('main.studi_kasus', compact('alternatifs', 'kriterias'));
     }
 
     public function showAlternatif($id)
@@ -21,5 +21,12 @@ class StudiKasusController extends Controller
         $alternatif = Alternatif::find($id);
 
         return view('main.studi_kasus_table.alternatif', compact('alternatif'));
+    }
+
+    public function showKriteria($id)
+    {
+        $kriteria = Kriteria::find($id);
+
+        return view('main.studi_kasus_table.kriteria', compact('kriteria'));
     }
 }

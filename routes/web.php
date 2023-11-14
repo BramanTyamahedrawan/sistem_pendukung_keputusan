@@ -25,3 +25,4 @@ Route::resource('alternatif', AlternatifController::class);
 Route::resource('studi-kasus', StudiKasusController::class);
 Route::get('studi-kasus/{id}/alternatif', [StudiKasusController::class, 'showAlternatif'])->name('studi-kasus.alternatif');
 Route::post('/tambah-alternatif', [AlternatifController::class, 'tambahAlternatif'])->name('tambah.alternatif');
+Route::post('/tambah-kriteria', [KriteriaController::class, 'tambahKriteria'])->name('tambah.kriteria');

@@ -29,6 +29,24 @@
         </div>
     </div>
 
+    <div class="modal fade" id="tambahKriteriaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Tambah Kriteria</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Menampilkan konten dari alternatif.blade.php -->
+                    @include('main.studi_kasus_table.kriteria')
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="page-heading">
         <div class="page-title mb-2">
             <div class="row mb-5 ">
@@ -55,11 +73,13 @@
             <div class="col-12 col-md-5">
                 <div class="card">
                     <div class="card-body">
+
                         <div class="card-header">
                             <h5 class="card-title">
                                 Table Alternatif
                             </h5>
                         </div>
+
                         <div class="table-responsive">
                             <table class="table table-hover" id="basic-table">
                                 <thead>
@@ -98,7 +118,7 @@
                         </div>
 
                         <div class="table-responsive">
-                            <table class="table table-bordered" id="basic-table">
+                            <table class="table table-hover" id="basic-table">
                                 <thead>
                                     <tr>
                                         <th>Kode</th>
@@ -108,11 +128,23 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                    </tr>
+                                    @forelse ($kriterias as $kriteria)
+                                        <tr>
+                                            <td>{{ $kriteria->kode_kriteria }}</td>
+                                            <td>{{ $kriteria->nama_kriteria }}</td>
+                                            <td>{{ $kriteria->bobot_kriteria }}</td>
+                                            <td>{{ $kriteria->jenis_kriteria == 0 ? 'Benefit' : 'Cost' }}</td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="4" class="text-center">Tidak ada data</td>
+                                        </tr>
+                                    @endforelse
                                 </tbody>
                             </table>
                         </div>
+                        <button class="btn btn-primary float-end border-0 text-white viewBtn" type="button"
+                            data-toggle="modal" data-target="#tambahKriteriaModal">Tambah </button>
                     </div>
                 </div>
             </div>
@@ -159,6 +191,45 @@
 
                         // Tutup modal
                         $('#tambahAlternatifModal').modal('hide');
+                    },
+                    error: function(error) {
+                        console.error('Error:', error);
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            // Handle submit form tambahKriteriaForm
+            $('#tambahKriteriaForm').submit(function(e) {
+                e.preventDefault();
+
+                var formData = $(this).serialize();
+
+                $.ajax({
+                    url: '/tambah-kriteria', // Gantilah dengan endpoint yang sesuai
+                    type: 'POST',
+                    data: formData,
+                    success: function(data) {
+                        // Gantilah alert bawaan browser dengan SweetAlert
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Kriteria berhasil ditambahkan!',
+                            showConfirmButton: false,
+                            timer: 1000
+                        }).then((result) => {
+                            location.reload();
+                        });
+
+                        // Tutup modal
+                        $('#tambahKriteriaModal').modal('hide');
                     },
                     error: function(error) {
                         console.error('Error:', error);

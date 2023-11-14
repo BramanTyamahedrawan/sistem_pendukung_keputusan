@@ -16,6 +16,10 @@ class AlternatifController extends Controller
             'kode_alternatif' => 'required',
             'nama_alternatif' => 'required',
             // Tambahkan aturan validasi lainnya sesuai kebutuhan
+        ], [
+            'kode_alternatif.required' => 'Kode alternatif harus diisi!',
+            'nama_alternatif.required' => 'Nama alternatif harus diisi!',
+            'kode_alternatif.required' => 'Kode alternatif tidak boleh sama!',
         ]);
 
         // Buat instance model Alternatif
