@@ -4,13 +4,6 @@
 
 @section('content')
 
-    @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
-
     <div class="modal fade" id="tambahAlternatifModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -42,6 +35,23 @@
                 <div class="modal-body">
                     <!-- Menampilkan konten dari alternatif.blade.php -->
                     @include('main.studi_kasus_table.kriteria')
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editAlternatifModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Alternatif</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="editAlternatifFormContainer"></div>
                 </div>
             </div>
         </div>
@@ -86,6 +96,7 @@
                                     <tr>
                                         <th>Kode</th>
                                         <th>Alternatif</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -93,6 +104,13 @@
                                         <tr>
                                             <td>{{ $alternatif->kode_alternatif }}</td>
                                             <td>{{ $alternatif->nama_alternatif }}</td>
+                                            <td>
+                                                <a href="#" class="btn btn-info" data-toggle="modal"
+                                                    data-target="#editAlternatifModal"
+                                                    data-alternatif-id="{{ $alternatif->id }}">
+                                                    Edit
+                                                </a>
+                                            </td>
                                         </tr>
                                     @empty
                                         <tr>
@@ -230,6 +248,60 @@
 
                         // Tutup modal
                         $('#tambahKriteriaModal').modal('hide');
+                    },
+                    error: function(error) {
+                        console.error('Error:', error);
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+
+            $('#editAlternatifModal').on('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget); // tombol yang memicu modal
+                var alternatifId = button.data('alternatif-id'); // ambil informasi dari atribut data-* HTML
+
+                // Lakukan permintaan Ajax untuk mendapatkan data alternatif
+                $.ajax({
+                    url: '/get-alternatif/' + alternatifId,
+                    method: 'GET',
+                    dataType: 'html',
+                    success: function(data) {
+
+                        // Sertakan data ke dalam formulir
+                        $('#editAlternatifFormContainer').html(data);
+
+                        // Submit form editAlternatifForm
+                        $('#editAlternatifForm').submit(function(e) {
+                            e.preventDefault();
+
+                            var formData = $(this).serialize();
+
+                            // Submit the form via Ajax
+                            $.ajax({
+                                url: '/edit-alternatif', // Adjust with the correct URL
+                                method: 'POST',
+                                data: formData,
+                                success: function(data) {
+                                    // Close the modal
+                                    $('#editAlternatifModal').modal('hide');
+                                },
+                                error: function(error) {
+                                    console.error('Error:', error);
+                                }
+                            });
+
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Alternatif berhasil diedit!',
+                                showConfirmButton: false,
+                                timer: 2000
+                            }).then((result) => {
+                                location.reload();
+                            });
+                        });
                     },
                     error: function(error) {
                         console.error('Error:', error);

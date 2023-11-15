@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreAlternatifRequest extends FormRequest
+class UpdateMatriksKeputusanRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,9 +22,7 @@ class StoreAlternatifRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nama_alternatif' => 'required', [
-                'nama_alternatif.required' => 'Nama alternatif harus diisi!',
-            ]
+            //
         ];
     }
 }

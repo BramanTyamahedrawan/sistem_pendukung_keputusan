@@ -29,4 +29,18 @@ class StudiKasusController extends Controller
 
         return view('main.studi_kasus_table.kriteria', compact('kriteria'));
     }
+
+    public function editAlternatif($id)
+    {
+        $alternatif = Alternatif::find($id);
+
+        return view('main.studi_kasus_table.alternatif_edit', compact('alternatif'));
+    }
+
+    public function editKriteria($id)
+    {
+        $kriteria = Kriteria::find($id);
+
+        return view('main.studi_kasus_table.kriteria_edit', compact('kriteria'));
+    }
 }

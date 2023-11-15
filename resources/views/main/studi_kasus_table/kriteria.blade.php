@@ -1,10 +1,6 @@
 <form id="tambahKriteriaForm" action="{{ route('tambah.kriteria') }}" method="POST">
     @csrf
     <div class="mb-3">
-        <label for="kode_kriteria" class="form-label">Kode Kriteria</label>
-        <input type="text" class="form-control" id="kode_kriteria" name="kode_kriteria" required>
-    </div>
-    <div class="mb-3">
         <label for="nama_kriteria" class="form-label">Nama Kriteria</label>
         <input type="text" class="form-control" id="nama_kriteria" name="nama_kriteria" required>
     </div>

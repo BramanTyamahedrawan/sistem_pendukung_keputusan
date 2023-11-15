@@ -22,7 +22,9 @@ class UpdateAlternatifRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'nama_alternatif' => 'required', [
+                'nama_alternatif.required' => 'Nama alternatif harus diisi!',
+            ]
         ];
     }
 }

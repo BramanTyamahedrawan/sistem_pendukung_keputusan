@@ -24,5 +24,8 @@ Route::resource('kriteria', KriteriaController::class);
 Route::resource('alternatif', AlternatifController::class);
 Route::resource('studi-kasus', StudiKasusController::class);
 Route::get('studi-kasus/{id}/alternatif', [StudiKasusController::class, 'showAlternatif'])->name('studi-kasus.alternatif');
+Route::get('studi-kasus/{id}/kriteria', [StudiKasusController::class, 'showKriteria'])->name('studi-kasus.kriteria');
 Route::post('/tambah-alternatif', [AlternatifController::class, 'tambahAlternatif'])->name('tambah.alternatif');
 Route::post('/tambah-kriteria', [KriteriaController::class, 'tambahKriteria'])->name('tambah.kriteria');
+Route::post('/edit-alternatif', [AlternatifController::class, 'editAlternatif'])->name('edit.alternatif');
+Route::get('/get-alternatif/{id}', [AlternatifController::class, 'getAlternatif'])->name('get.alternatif');

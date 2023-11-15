@@ -4,37 +4,55 @@ namespace App\Http\Controllers;
 
 use App\Models\Alternatif;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreAlternatifRequest;
 use App\Http\Requests\UpdateAlternatifRequest;
+use Illuminate\Support\Facades\Redis;
 
 class AlternatifController extends Controller
 {
     public function tambahAlternatif(Request $request)
     {
-        // Validasi data yang diterima dari formulir
         $request->validate([
-            'kode_alternatif' => 'required',
-            'nama_alternatif' => 'required',
-            // Tambahkan aturan validasi lainnya sesuai kebutuhan
-        ], [
-            'kode_alternatif.required' => 'Kode alternatif harus diisi!',
-            'nama_alternatif.required' => 'Nama alternatif harus diisi!',
-            'kode_alternatif.required' => 'Kode alternatif tidak boleh sama!',
+            'nama_alternatif' => 'required', [
+                'nama_alternatif.required' => 'Nama alternatif harus diisi!',
+            ]
         ]);
 
-        // Buat instance model Alternatif
+        $latestKodeAlternatif = DB::table('alternatifs')->max('kode_alternatif');
+        $kodeAlternatifNumber = (int)substr($latestKodeAlternatif, 1);
+        $nextKodeAlternatif = 'A' . ($kodeAlternatifNumber + 1);
+
         $alternatif = new Alternatif([
-            'kode_alternatif' => $request->input('kode_alternatif'),
+            'kode_alternatif' => $nextKodeAlternatif,
             'nama_alternatif' => $request->input('nama_alternatif'),
-            // Isi dengan atribut lainnya sesuai kebutuhan
         ]);
 
-        // Simpan data Alternatif ke database
         $alternatif->save();
 
-        // Redirect dengan pesan sukses (Anda bisa menyesuaikan ini sesuai kebutuhan)
         return redirect()->back()->with('success', 'Alternatif berhasil ditambahkan!');
     }
+
+    public function getAlternatif($id)
+    {
+        $alternatif = Alternatif::find($id);
+
+        return view('main.studi_kasus_table.alternatif_edit', compact('alternatif'));
+    }
+
+    public function editAlternatif(Request $request)
+    {
+        $request->validate([
+            'nama_alternatif' => 'required',
+        ]);
+
+        $alternatif = Alternatif::find($request->input('alternatif_id'));
+        $alternatif->nama_alternatif = $request->input('nama_alternatif');
+        $alternatif->save();
+
+        return redirect()->back()->with('success', 'Alternatif berhasil diubah!');
+    }
+
 
     /**
      * Display a listing of the resource.
@@ -55,7 +73,7 @@ class AlternatifController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreAlternatifRequest $request)
+    public function store(StoreAlternatifRequest $request, Alternatif $alternatif)
     {
     }
 
@@ -78,9 +96,8 @@ class AlternatifController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateAlternatifRequest $request, Alternatif $alternatif)
+    public function updateAlternatif(UpdateAlternatifRequest $request, Alternatif $alternatif)
     {
-        //
     }
 
     /**
