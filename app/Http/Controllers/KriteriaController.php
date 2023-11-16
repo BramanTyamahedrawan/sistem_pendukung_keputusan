@@ -38,6 +38,30 @@ class KriteriaController extends Controller
         return redirect()->back()->with('success', 'Kriteria berhasil ditambahkan!');
     }
 
+    public function getKriteria($id)
+    {
+        $kriteria = Kriteria::find($id);
+
+        return view('main.studi_kasus_table.kriteria_edit', compact('kriteria'));
+    }
+
+    public function editKriteria(Request $request)
+    {
+        $request->validate([
+            'nama_kriteria' => 'required',
+            'bobot_kriteria' => 'required',
+            'jenis_kriteria' => 'required',
+        ]);
+
+        $kriteria = Kriteria::find($request->input('id_kriteria'));
+        $kriteria->nama_kriteria = $request->input('nama_kriteria');
+        $kriteria->bobot_kriteria = $request->input('bobot_kriteria');
+        $kriteria->jenis_kriteria = $request->input('jenis_kriteria');
+        $kriteria->save();
+
+        return redirect()->back()->with('success', 'Kriteria berhasil diubah!');
+    }
+
     /**
      * Display a listing of the resource.
      */

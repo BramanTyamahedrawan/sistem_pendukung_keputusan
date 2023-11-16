@@ -29,3 +29,5 @@ Route::post('/tambah-alternatif', [AlternatifController::class, 'tambahAlternati
 Route::post('/tambah-kriteria', [KriteriaController::class, 'tambahKriteria'])->name('tambah.kriteria');
 Route::post('/edit-alternatif', [AlternatifController::class, 'editAlternatif'])->name('edit.alternatif');
 Route::get('/get-alternatif/{id}', [AlternatifController::class, 'getAlternatif'])->name('get.alternatif');
+Route::get('/get-kriteria/{id}', [KriteriaController::class, 'getKriteria'])->name('get.kriteria');
+Route::post('/edit-kriteria', [KriteriaController::class, 'editKriteria'])->name('edit.kriteria');

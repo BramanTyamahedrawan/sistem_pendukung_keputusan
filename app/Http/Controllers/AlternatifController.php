@@ -46,7 +46,7 @@ class AlternatifController extends Controller
             'nama_alternatif' => 'required',
         ]);
 
-        $alternatif = Alternatif::find($request->input('alternatif_id'));
+        $alternatif = Alternatif::find($request->input('id_alternatif'));
         $alternatif->nama_alternatif = $request->input('nama_alternatif');
         $alternatif->save();
 

@@ -57,6 +57,23 @@
         </div>
     </div>
 
+    <div class="modal fade" id="editKriteriaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Kriteria</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="editKriteriaFormContainer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="page-heading">
         <div class="page-title mb-2">
             <div class="row mb-5 ">
@@ -105,7 +122,7 @@
                                             <td>{{ $alternatif->kode_alternatif }}</td>
                                             <td>{{ $alternatif->nama_alternatif }}</td>
                                             <td>
-                                                <a href="#" class="btn btn-info" data-toggle="modal"
+                                                <a href="#" class="btn btn-warning" data-toggle="modal"
                                                     data-target="#editAlternatifModal"
                                                     data-alternatif-id="{{ $alternatif->id }}">
                                                     Edit
@@ -143,6 +160,7 @@
                                         <th>Kriteria</th>
                                         <th>Bobot</th>
                                         <th>Jenis</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -152,6 +170,13 @@
                                             <td>{{ $kriteria->nama_kriteria }}</td>
                                             <td>{{ $kriteria->bobot_kriteria }}</td>
                                             <td>{{ $kriteria->jenis_kriteria == 0 ? 'Benefit' : 'Cost' }}</td>
+                                            <td>
+                                                <a href="#" class="btn btn-warning" data-toggle="modal"
+                                                    data-target="#editKriteriaModal"
+                                                    data-kriteria-id="{{ $kriteria->id }}">
+                                                    Edit
+                                                </a>
+                                            </td>
                                         </tr>
                                     @empty
                                         <tr>
@@ -296,6 +321,60 @@
                             Swal.fire({
                                 icon: 'success',
                                 title: 'Alternatif berhasil diedit!',
+                                showConfirmButton: false,
+                                timer: 2000
+                            }).then((result) => {
+                                location.reload();
+                            });
+                        });
+                    },
+                    error: function(error) {
+                        console.error('Error:', error);
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+
+            $('#editKriteriaModal').on('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget); // tombol yang memicu modal
+                var kriteriaId = button.data('kriteria-id'); // ambil informasi dari atribut data-* HTML
+
+                // Lakukan permintaan Ajax untuk mendapatkan data alternatif
+                $.ajax({
+                    url: '/get-kriteria/' + kriteriaId,
+                    method: 'GET',
+                    dataType: 'html',
+                    success: function(data) {
+
+                        // Sertakan data ke dalam formulir
+                        $('#editKriteriaFormContainer').html(data);
+
+                        // Submit form editAlternatifForm
+                        $('#editKriteriaForm').submit(function(e) {
+                            e.preventDefault();
+
+                            var formData = $(this).serialize();
+
+                            // Submit the form via Ajax
+                            $.ajax({
+                                url: '/edit-kriteria', // Adjust with the correct URL
+                                method: 'POST',
+                                data: formData,
+                                success: function(data) {
+                                    // Close the modal
+                                    $('#editKriteriaModal').modal('hide');
+                                },
+                                error: function(error) {
+                                    console.error('Error:', error);
+                                }
+                            });
+
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Kriteria berhasil diedit!',
                                 showConfirmButton: false,
                                 timer: 2000
                             }).then((result) => {
