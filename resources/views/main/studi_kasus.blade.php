@@ -122,16 +122,31 @@
                                             <td>{{ $alternatif->kode_alternatif }}</td>
                                             <td>{{ $alternatif->nama_alternatif }}</td>
                                             <td>
-                                                <a href="#" class="btn btn-warning" data-toggle="modal"
-                                                    data-target="#editAlternatifModal"
-                                                    data-alternatif-id="{{ $alternatif->id }}">
-                                                    Edit
-                                                </a>
+                                                <div class="d-flex justify-content-center gap-3">
+                                                    <a href="#" class="btn btn-warning" data-toggle="modal"
+                                                        data-target="#editAlternatifModal"
+                                                        data-alternatif-id="{{ $alternatif->id }}">
+                                                        Edit
+                                                    </a>
+                                                    {{-- button delete --}}
+                                                    <a href="{{ route('delete.alternatif', ['id' => $alternatif->id]) }}"
+                                                        class="btn btn-danger delete-alternatif-btn"
+                                                        onclick="event.preventDefault(); document.getElementById('delete-form-{{ $alternatif->id }}').submit();">
+                                                        Delete
+                                                    </a>
+                                                    <form id="delete-form-{{ $alternatif->id }}"
+                                                        action="{{ route('delete.alternatif', ['id' => $alternatif->id]) }}"
+                                                        method="POST" style="display: none;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                    </form>
+                                                    {{-- batas button delete --}}
+                                                </div>
                                             </td>
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="2" class="text-center">Tidak ada data</td>
+                                            <td colspan="3" class="text-center">Tidak ada data</td>
                                         </tr>
                                     @endforelse
                                 </tbody>
@@ -171,16 +186,31 @@
                                             <td>{{ $kriteria->bobot_kriteria }}</td>
                                             <td>{{ $kriteria->jenis_kriteria == 0 ? 'Benefit' : 'Cost' }}</td>
                                             <td>
-                                                <a href="#" class="btn btn-warning" data-toggle="modal"
-                                                    data-target="#editKriteriaModal"
-                                                    data-kriteria-id="{{ $kriteria->id }}">
-                                                    Edit
-                                                </a>
+                                                <div class="d-flex justify-content-center gap-3">
+                                                    <a href="#" class="btn btn-warning" data-toggle="modal"
+                                                        data-target="#editKriteriaModal"
+                                                        data-kriteria-id="{{ $kriteria->id }}">
+                                                        Edit
+                                                    </a>
+                                                    {{-- button delete --}}
+                                                    <a href="{{ route('delete.kriteria', ['id' => $kriteria->id]) }}"
+                                                        class="btn btn-danger delete-kriteria-btn"
+                                                        onclick="event.preventDefault(); document.getElementById('delete-form-{{ $kriteria->id }}').submit();">
+                                                        Delete
+                                                    </a>
+                                                    <form id="delete-form-{{ $kriteria->id }}"
+                                                        action="{{ route('delete.kriteria', ['id' => $kriteria->id]) }}"
+                                                        method="POST" style="display: none;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                    </form>
+                                                    {{-- batas button delete --}}
+                                                </div>
                                             </td>
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="4" class="text-center">Tidak ada data</td>
+                                            <td colspan="5" class="text-center">Tidak ada data</td>
                                         </tr>
                                     @endforelse
                                 </tbody>
@@ -202,6 +232,8 @@
     <script src="assets/static/js/pages/sweetalert2.js"></script>
     <script src="assets/extensions/sweetalert2/sweetalert2.min.js"></script>
     <script src="assets/static/js/pages/sweetalert2.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
 
     <script>
         $(document).ready(function() {
@@ -380,6 +412,44 @@
                             }).then((result) => {
                                 location.reload();
                             });
+                        });
+                    },
+                    error: function(error) {
+                        console.error('Error:', error);
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            // Handle click on delete-alternatif-btn
+            $('.delete-alternatif-btn').click(function(e) {
+                e.preventDefault();
+
+                // Store the reference to the current button for later use
+                var $button = $(this);
+
+                // AJAX request to delete the alternatif
+                $.ajax({
+                    url: '/delete-alternatif/' + $button.data('alternatif-id'),
+                    type: 'DELETE',
+                    success: function(data) {
+                        // Gantilah alert bawaan browser dengan SweetAlert
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Alternatif berhasil dihapus!',
+                            showConfirmButton: false,
+                            timer: 1000
+                        }).then((result) => {
+                            // Redirect or perform any other action after SweetAlert is closed
+                            location.reload();
                         });
                     },
                     error: function(error) {

@@ -53,6 +53,27 @@ class AlternatifController extends Controller
         return redirect()->back()->with('success', 'Alternatif berhasil diubah!');
     }
 
+    public function destroyAlternatif($id)
+    {
+        $alternatif = Alternatif::find($id);
+
+        $kodeAlternatifToBeDeleted = $alternatif->kode_alternatif;
+        $alternatifBawah = Alternatif::where('kode_alternatif', '>', $kodeAlternatifToBeDeleted)->get();
+        $alternatif->delete();
+
+        foreach ($alternatifBawah as $alternatifSatu) {
+            $kodeAlternatifSatu = $alternatifSatu->kode_alternatif;
+            $kodeAlternatifNumber = (int)substr($kodeAlternatifSatu, 1);
+            $nextKodeAlternatifSatu = 'A' . ($kodeAlternatifNumber - 1);
+
+            $alternatifSatu->update(['kode_alternatif' => $nextKodeAlternatifSatu]);
+        }
+
+        return redirect()->back()->with('success', 'Alternatif berhasil dihapus!');
+    }
+
+
+
 
     /**
      * Display a listing of the resource.

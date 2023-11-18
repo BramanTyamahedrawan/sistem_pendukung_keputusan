@@ -62,6 +62,25 @@ class KriteriaController extends Controller
         return redirect()->back()->with('success', 'Kriteria berhasil diubah!');
     }
 
+    public function destroyKriteria($id)
+    {
+        $kriteria = Kriteria::find($id);
+
+        $kodeKriteriaToBeDeleted = $kriteria->kode_kriteria;
+        $kriteriaBawah = Kriteria::where('kode_kriteria', '>', $kodeKriteriaToBeDeleted)->get();
+        $kriteria->delete();
+
+        foreach ($kriteriaBawah as $kriteriaSatu) {
+            $kodeKriteriaSatu = $kriteriaSatu->kode_kriteria;
+            $kodeKriteriaNumber = (int)substr($kodeKriteriaSatu, 1);
+            $nextKodeKriteriaSatu = 'C' . ($kodeKriteriaNumber - 1);
+
+            $kriteriaSatu->update(['kode_kriteria' => $nextKodeKriteriaSatu]);
+        }
+
+        return redirect()->back()->with('success', 'Kriteria berhasil dihapus!');
+    }
+
     /**
      * Display a listing of the resource.
      */

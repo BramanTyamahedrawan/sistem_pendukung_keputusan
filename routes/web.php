@@ -31,3 +31,5 @@ Route::post('/edit-alternatif', [AlternatifController::class, 'editAlternatif'])
 Route::get('/get-alternatif/{id}', [AlternatifController::class, 'getAlternatif'])->name('get.alternatif');
 Route::get('/get-kriteria/{id}', [KriteriaController::class, 'getKriteria'])->name('get.kriteria');
 Route::post('/edit-kriteria', [KriteriaController::class, 'editKriteria'])->name('edit.kriteria');
+Route::delete('/delete-alternatif/{id}', [AlternatifController::class, 'destroyAlternatif'])->name('delete.alternatif');
+Route::delete('/delete-kriteria/{id}', [KriteriaController::class, 'destroyKriteria'])->name('delete.kriteria');
