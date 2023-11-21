@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreAlternatifRequest;
 use App\Http\Requests\UpdateAlternatifRequest;
+use App\Models\MatriksKeputusan;
 use Illuminate\Support\Facades\Redis;
 
 class AlternatifController extends Controller
@@ -56,6 +57,8 @@ class AlternatifController extends Controller
     public function destroyAlternatif($id)
     {
         $alternatif = Alternatif::find($id);
+
+        MatriksKeputusan::where('id_alternatif', $id)->delete();
 
         $kodeAlternatifToBeDeleted = $alternatif->kode_alternatif;
         $alternatifBawah = Alternatif::where('kode_alternatif', '>', $kodeAlternatifToBeDeleted)->get();

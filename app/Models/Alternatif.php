@@ -14,4 +14,9 @@ class Alternatif extends Model
         'kode_alternatif',
         'nama_alternatif',
     ];
+
+    public function matriks_keputusan()
+    {
+        return $this->hasOne(MatriksKeputusan::class, 'id_alternatif');
+    }
 }

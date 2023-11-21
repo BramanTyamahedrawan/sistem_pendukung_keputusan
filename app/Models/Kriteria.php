@@ -15,4 +15,9 @@ class Kriteria extends Model
         'bobot_kriteria',
         'jenis_kriteria',
     ];
+
+    public function matriks_keputusan()
+    {
+        return $this->hasOne(MatriksKeputusan::class, 'id_kriteria');
+    }
 }

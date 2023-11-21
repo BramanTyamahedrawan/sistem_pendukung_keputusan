@@ -51,7 +51,7 @@
                 </li>
 
                 <li class="sidebar-item">
-                    <a href="#" class='sidebar-link'>
+                    <a href="{{ route('matriks_keputusan.index') }}" class='sidebar-link'>
                         <i class="bi bi-stack"></i>
                         <span>Matriks Keputusan</span>
                     </a>

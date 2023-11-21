@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('matriks_keputusans', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('id_alternatif');
+            $table->foreign('id_alternatif')->references('id')->on('alternatifs')->onDelete('cascade');
+            $table->unsignedBigInteger('id_kriteria');
+            $table->foreign('id_kriteria')->references('id')->on('kriterias')->onDelete('cascade');
+            $table->double('nilai')->nullable();
             $table->timestamps();
         });
     }

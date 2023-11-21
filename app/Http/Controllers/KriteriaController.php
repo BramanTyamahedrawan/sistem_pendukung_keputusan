@@ -6,6 +6,7 @@ use App\Models\Kriteria;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreKriteriaRequest;
+use App\Models\MatriksKeputusan;
 use App\Http\Requests\UpdateKriteriaRequest;
 
 class KriteriaController extends Controller
@@ -65,6 +66,8 @@ class KriteriaController extends Controller
     public function destroyKriteria($id)
     {
         $kriteria = Kriteria::find($id);
+
+        MatriksKeputusan::where('id_kriteria', $id)->delete();
 
         $kodeKriteriaToBeDeleted = $kriteria->kode_kriteria;
         $kriteriaBawah = Kriteria::where('kode_kriteria', '>', $kodeKriteriaToBeDeleted)->get();
