@@ -19,4 +19,9 @@ class Alternatif extends Model
     {
         return $this->hasOne(MatriksKeputusan::class, 'id_alternatif');
     }
+
+    public function max_min()
+    {
+        return $this->hasOne(MaxMin::class, 'id_alternatif');
+    }
 }

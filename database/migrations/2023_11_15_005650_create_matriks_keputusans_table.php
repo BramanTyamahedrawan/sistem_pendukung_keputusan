@@ -18,6 +18,8 @@ return new class extends Migration
             $table->unsignedBigInteger('id_kriteria');
             $table->foreign('id_kriteria')->references('id')->on('kriterias')->onDelete('cascade');
             $table->double('nilai')->nullable();
+            $table->double('max')->nullable();
+            $table->double('min')->nullable();
             $table->timestamps();
         });
     }

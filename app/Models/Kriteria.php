@@ -20,4 +20,9 @@ class Kriteria extends Model
     {
         return $this->hasOne(MatriksKeputusan::class, 'id_kriteria');
     }
+
+    public function max_min()
+    {
+        return $this->hasOne(MaxMin::class, 'id_kriteria');
+    }
 }

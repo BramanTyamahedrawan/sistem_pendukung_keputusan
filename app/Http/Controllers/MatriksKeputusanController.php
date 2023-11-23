@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\MatriksKeputusan;
 use Illuminate\Http\Request;
 use App\Models\Kriteria;
+use Illuminate\Support\Facades\DB;
 use App\Models\Alternatif;
 use App\Http\Requests\StoreMatriksKeputusanRequest;
 use App\Http\Requests\UpdateMatriksKeputusanRequest;
@@ -21,7 +22,16 @@ class MatriksKeputusanController extends Controller
         $alternatifs = Alternatif::all();
         $kriterias = Kriteria::all();
 
-        return view("main.matriks_keputusan", compact('matriksKeputusans', 'alternatifs', 'kriterias'));
+        $maxValues = [];
+        $minValues = [];
+        foreach ($kriterias as $kriteria) {
+            $matriksKriteria = $matriksKeputusans->where('id_kriteria', $kriteria->id);
+
+            $maxValues[$kriteria->id] = MatriksKeputusan::where('id_kriteria', $kriteria->id)->max('nilai');
+            $minValues[$kriteria->id] = MatriksKeputusan::where('id_kriteria', $kriteria->id)->min('nilai');
+        }
+
+        return view("main.matriks_keputusan", compact('matriksKeputusans', 'alternatifs', 'kriterias', 'maxValues', 'minValues'));
     }
 
 
@@ -36,12 +46,16 @@ class MatriksKeputusanController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+
+
     public function store(Request $request)
     {
         $matrixValues = $request->input('nilai_matriks');
+        $kriterias = Kriteria::all();
 
         foreach ($matrixValues as $alternatifId => $kriteriaValues) {
             foreach ($kriteriaValues as $kriteriaId => $value) {
+                // Simpan nilai matriks
                 MatriksKeputusan::updateOrCreate(
                     ['id_alternatif' => $alternatifId, 'id_kriteria' => $kriteriaId],
                     ['nilai' => $value]
@@ -49,8 +63,38 @@ class MatriksKeputusanController extends Controller
             }
         }
 
+        foreach ($kriterias as $kriteria) {
+            $maxValue = DB::table('matriks_keputusans')
+                ->where('id_kriteria', $kriteria->id)
+                ->max('nilai');
+
+            $minValue = DB::table('matriks_keputusans')
+                ->where('id_kriteria', $kriteria->id)
+                ->min('nilai');
+
+            // Update semua entri untuk kriteria ini dengan nilai maksimum dan minimum
+            MatriksKeputusan::where('id_kriteria', $kriteria->id)->update(['max' => $maxValue, 'min' => $minValue]);
+        }
+
         return redirect()->back()->with('success', 'Nilai matriks berhasil disimpan');
     }
+
+    // public function store(Request $request)
+    // {
+    //     $matrixValues = $request->input('nilai_matriks');
+
+    //     foreach ($matrixValues as $alternatifId => $kriteriaValues) {
+    //         foreach ($kriteriaValues as $kriteriaId => $value) {
+    //             MatriksKeputusan::updateOrCreate(
+    //                 ['id_alternatif' => $alternatifId, 'id_kriteria' => $kriteriaId],
+    //                 ['nilai' => $value]
+    //             );
+    //         }
+    //     }
+
+    //     return redirect()->back()->with('success', 'Nilai matriks berhasil disimpan');
+    // }
+
 
     /**
      * Display the specified resource.

@@ -21,7 +21,7 @@
                         </div>
                         <div class="card-content">
                             <div class="card-body">
-                                <!-- Form untuk mengisi nilai matriks -->
+
                                 <form action="{{ route('matriks_keputusan.store') }}" method="POST">
                                     @csrf
                                     <div class="table-responsive">
@@ -40,7 +40,6 @@
                                                         <td>{{ $alternatif->nama_alternatif }}</td>
                                                         @foreach ($kriterias as $kriteria)
                                                             <td>
-                                                                {{-- Tampilkan nilai jika sudah ada --}}
                                                                 @php
                                                                     $nilai = $matriksKeputusans
                                                                         ->where('id_alternatif', $alternatif->id)
@@ -59,10 +58,25 @@
                                                             Kosong</td>
                                                     </tr>
                                                 @endforelse
+                                                <tr>
+                                                    <td>MAX</td>
+                                                    @foreach ($kriterias as $kriteria)
+                                                        <td>
+                                                            {{ $maxValues[$kriteria->id] }}
+                                                        </td>
+                                                    @endforeach
+                                                </tr>
+                                                <tr>
+                                                    <td>MIN</td>
+                                                    @foreach ($kriterias as $kriteria)
+                                                        <td>
+                                                            {{ $minValues[$kriteria->id] }}
+                                                        </td>
+                                                    @endforeach
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
-
                                     <button type="submit" class="btn btn-primary mt-3">Simpan Nilai Matriks</button>
                                 </form>
                             </div>
