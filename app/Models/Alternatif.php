@@ -24,4 +24,9 @@ class Alternatif extends Model
     {
         return $this->hasOne(MaxMin::class, 'id_alternatif');
     }
+
+    public function normalisasi_matriks()
+    {
+        return $this->hasOne(NormalisasiMatrik::class, 'id_alternatif');
+    }
 }

@@ -25,4 +25,9 @@ class Kriteria extends Model
     {
         return $this->hasOne(MaxMin::class, 'id_kriteria');
     }
+
+    public function normalisasi_matriks()
+    {
+        return $this->hasOne(NormalisasiMatrik::class, 'id_kriteria');
+    }
 }

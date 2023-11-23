@@ -1,4 +1,3 @@
-<!-- matriks_keputusan.blade.php -->
 @extends('layouts.app')
 
 @section('title', 'Matriks Keputusan')
@@ -46,11 +45,12 @@
                                                                         ->where('id_kriteria', $kriteria->id)
                                                                         ->first();
                                                                 @endphp
-                                                                <input type="number"
+                                                                <input type="number" step="any"
                                                                     name="nilai_matriks[{{ $alternatif->id }}][{{ $kriteria->id }}]"
-                                                                    value="{{ $nilai ? $nilai->nilai : '' }}" />
+                                                                    value="{{ $nilai ? number_format($nilai->nilai, $nilai->nilai != (int) $nilai->nilai ? 2 : 0, '.', '') : '' }}" />
                                                             </td>
                                                         @endforeach
+
                                                     </tr>
                                                 @empty
                                                     <tr>

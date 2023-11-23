@@ -56,6 +56,13 @@
                         <span>Matriks Keputusan</span>
                     </a>
                 </li>
+
+                <li class="sidebar-item">
+                    <a href="{{ route('normalisasi_matriks.index') }}" class='sidebar-link'>
+                        <i class="bi bi-collection-fill"></i>
+                        <span>Matriks Keputusan</span>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

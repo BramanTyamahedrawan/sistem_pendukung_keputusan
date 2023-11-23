@@ -11,15 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('matriks_keputusans', function (Blueprint $table) {
+        Schema::create('normalisasi_matriks', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_alternatif');
             $table->foreign('id_alternatif')->references('id')->on('alternatifs')->onDelete('cascade');
             $table->unsignedBigInteger('id_kriteria');
             $table->foreign('id_kriteria')->references('id')->on('kriterias')->onDelete('cascade');
-            $table->decimal('nilai', 8, 4)->nullable();
-            $table->decimal('max', 8, 4)->nullable();
-            $table->decimal('min', 8, 4)->nullable();
+            $table->decimal('nilai', 8, 4);
             $table->timestamps();
         });
     }
@@ -29,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('matriks_keputusans');
+        Schema::dropIfExists('normalisasi_matriks');
     }
 };
