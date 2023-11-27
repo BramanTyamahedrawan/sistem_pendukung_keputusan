@@ -44,13 +44,15 @@
                                                                         ->where('id_alternatif', $alternatif->id)
                                                                         ->where('id_kriteria', $kriteria->id)
                                                                         ->first();
+
+                                                                    $formattedValue = $nilai ? number_format($nilai->nilai, $nilai->nilai != (int) $nilai->nilai ? 4 : 0, '.', '') : '';
+                                                                    $trimmedValue = rtrim(rtrim($formattedValue, '0'), '.');
                                                                 @endphp
                                                                 <input type="number" step="any"
                                                                     name="nilai_matriks[{{ $alternatif->id }}][{{ $kriteria->id }}]"
-                                                                    value="{{ $nilai ? number_format($nilai->nilai, $nilai->nilai != (int) $nilai->nilai ? 2 : 0, '.', '') : '' }}" />
+                                                                    value="{{ $trimmedValue }}" />
                                                             </td>
                                                         @endforeach
-
                                                     </tr>
                                                 @empty
                                                     <tr>
@@ -62,7 +64,11 @@
                                                     <td>MAX</td>
                                                     @foreach ($kriterias as $kriteria)
                                                         <td>
-                                                            {{ $maxValues[$kriteria->id] }}
+                                                            @php
+                                                                $formattedValue = number_format($maxValues[$kriteria->id], 4, '.', '');
+                                                                $trimmedValue = rtrim(rtrim($formattedValue, '0'), '.');
+                                                            @endphp
+                                                            {{ $trimmedValue }}
                                                         </td>
                                                     @endforeach
                                                 </tr>
@@ -70,7 +76,11 @@
                                                     <td>MIN</td>
                                                     @foreach ($kriterias as $kriteria)
                                                         <td>
-                                                            {{ $minValues[$kriteria->id] }}
+                                                            @php
+                                                                $formattedValue = number_format($minValues[$kriteria->id], 4, '.', '');
+                                                                $trimmedValue = rtrim(rtrim($formattedValue, '0'), '.');
+                                                            @endphp
+                                                            {{ $trimmedValue }}
                                                         </td>
                                                     @endforeach
                                                 </tr>

@@ -41,10 +41,17 @@
                                                                     ->where('id_alternatif', $alternatif->id)
                                                                     ->where('id_kriteria', $kriteria->id)
                                                                     ->first();
+
+                                                                if ($nilai && $nilai->nilai == 0.0) {
+                                                                    $formattedValue = '0';
+                                                                } else {
+                                                                    $formattedValue = $nilai ? number_format($nilai->nilai, $nilai->nilai != (int) $nilai->nilai ? 4 : 0, '.', '') : '';
+                                                                    $formattedValue = rtrim(rtrim($formattedValue, '0'), '.');
+                                                                }
                                                             @endphp
-                                                            <input type="number"
+                                                            <input type="number" step="any" disabled
                                                                 name="nilai_matriks[{{ $alternatif->id }}][{{ $kriteria->id }}]"
-                                                                value="{{ $nilai ? $nilai->nilai : '' }}" />
+                                                                value="{{ $formattedValue }}" />
                                                         </td>
                                                     @endforeach
                                                 </tr>

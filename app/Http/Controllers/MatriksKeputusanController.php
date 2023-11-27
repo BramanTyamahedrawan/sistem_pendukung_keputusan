@@ -48,6 +48,7 @@ class MatriksKeputusanController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+
     public function store(Request $request)
     {
         $matrixValues = $request->input('nilai_matriks');
@@ -65,13 +66,13 @@ class MatriksKeputusanController extends Controller
         }
 
         foreach ($kriterias as $kriteria) {
-            $maxValue = DB::table('matriks_keputusans')
-                ->where('id_kriteria', $kriteria->id)
-                ->max('nilai');
+            $maxValue = $kriteria->jenis_kriteria ? // If jenis_kriteria is true (cost)
+                DB::table('matriks_keputusans')->where('id_kriteria', $kriteria->id)->min('nilai') :
+                DB::table('matriks_keputusans')->where('id_kriteria', $kriteria->id)->max('nilai');
 
-            $minValue = DB::table('matriks_keputusans')
-                ->where('id_kriteria', $kriteria->id)
-                ->min('nilai');
+            $minValue = $kriteria->jenis_kriteria ? // If jenis_kriteria is true (cost)
+                DB::table('matriks_keputusans')->where('id_kriteria', $kriteria->id)->max('nilai') :
+                DB::table('matriks_keputusans')->where('id_kriteria', $kriteria->id)->min('nilai');
 
             // Update semua entri untuk kriteria ini dengan nilai maksimum dan minimum
             MatriksKeputusan::where('id_kriteria', $kriteria->id)->update(['max' => $maxValue, 'min' => $minValue]);
@@ -83,7 +84,9 @@ class MatriksKeputusanController extends Controller
                 $maxValue = MatriksKeputusan::where('id_kriteria', $kriteriaId)->value('max');
                 $minValue = MatriksKeputusan::where('id_kriteria', $kriteriaId)->value('min');
 
-                $normalizedValue = (($value - $minValue) / ($maxValue - $minValue));
+                $normalizedValue = $kriteria->jenis_kriteria ?
+                    (($maxValue - $value) / ($maxValue - $minValue)) : // If jenis_kriteria is true (cost)
+                    (($value - $minValue) / ($maxValue - $minValue)); // If jenis_kriteria is false (benefit)
 
                 // Store normalized value in NormalisasiMatrik table
                 NormalisasiMatrik::updateOrCreate(
@@ -95,6 +98,54 @@ class MatriksKeputusanController extends Controller
 
         return redirect()->back()->with('success', 'Nilai matriks berhasil disimpan');
     }
+
+    // public function store(Request $request)
+    // {
+    //     $matrixValues = $request->input('nilai_matriks');
+    //     $kriterias = Kriteria::all();
+    //     $alternatifId = $request->input('alternatif_id');
+
+    //     // Step 1: Store matrix values in MatriksKeputusan table
+    //     foreach ($matrixValues as $alternatifId => $kriteriaValues) {
+    //         foreach ($kriteriaValues as $kriteriaId => $value) {
+    //             MatriksKeputusan::updateOrCreate(
+    //                 ['id_alternatif' => $alternatifId, 'id_kriteria' => $kriteriaId],
+    //                 ['nilai' => $value]
+    //             );
+    //         }
+    //     }
+
+    //     foreach ($kriterias as $kriteria) {
+    //         $maxValue = DB::table('matriks_keputusans')
+    //             ->where('id_kriteria', $kriteria->id)
+    //             ->max('nilai');
+
+    //         $minValue = DB::table('matriks_keputusans')
+    //             ->where('id_kriteria', $kriteria->id)
+    //             ->min('nilai');
+
+    //         // Update semua entri untuk kriteria ini dengan nilai maksimum dan minimum
+    //         MatriksKeputusan::where('id_kriteria', $kriteria->id)->update(['max' => $maxValue, 'min' => $minValue]);
+    //     }
+
+    //     foreach ($matrixValues as $alternatifId => $kriteriaValues) {
+    //         foreach ($kriteriaValues as $kriteriaId => $value) {
+    //             // Retrieve max and min values from MatriksKeputusan table
+    //             $maxValue = MatriksKeputusan::where('id_kriteria', $kriteriaId)->value('max');
+    //             $minValue = MatriksKeputusan::where('id_kriteria', $kriteriaId)->value('min');
+
+    //             $normalizedValue = (($value - $minValue) / ($maxValue - $minValue));
+
+    //             // Store normalized value in NormalisasiMatrik table
+    //             NormalisasiMatrik::updateOrCreate(
+    //                 ['id_alternatif' => $alternatifId, 'id_kriteria' => $kriteriaId],
+    //                 ['nilai' => $normalizedValue]
+    //             );
+    //         }
+    //     }
+
+    //     return redirect()->back()->with('success', 'Nilai matriks berhasil disimpan');
+    // }
 
 
     // public function store(Request $request)
