@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Normalisasi Matriks')
+@section('title', 'Matriks Tertimbang')
 
 @section('content')
 
@@ -16,7 +16,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Normalisasi Matriks</h4>
+                            <h4 class="card-title">Matriks Tertimbang</h4>
                         </div>
                         <div class="card-content">
                             <div class="card-body">
@@ -37,7 +37,7 @@
                                                     @foreach ($kriterias as $kriteria)
                                                         <td>
                                                             @php
-                                                                $nilai = $normalizedValues
+                                                                $nilai = $weightedValues
                                                                     ->where('id_alternatif', $alternatif->id)
                                                                     ->where('id_kriteria', $kriteria->id)
                                                                     ->first();

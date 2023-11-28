@@ -29,4 +29,9 @@ class Alternatif extends Model
     {
         return $this->hasOne(NormalisasiMatrik::class, 'id_alternatif');
     }
+
+    public function matriks_tertimbang()
+    {
+        return $this->hasOne(MatriksTertimbang::class, 'id_alternatif');
+    }
 }

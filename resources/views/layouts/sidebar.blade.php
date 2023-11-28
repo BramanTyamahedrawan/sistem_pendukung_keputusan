@@ -63,6 +63,12 @@
                         <span>Normalisasi Matriks</span>
                     </a>
                 </li>
+                <li class="sidebar-item">
+                    <a href="{{ route('matriks_tertimbang.index') }}" class='sidebar-link'>
+                        <i class="bi bi-hexagon-fill"></i>
+                        <span>Matriks Tertimbang</span>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

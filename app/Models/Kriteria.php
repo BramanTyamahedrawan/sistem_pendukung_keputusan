@@ -30,4 +30,9 @@ class Kriteria extends Model
     {
         return $this->hasOne(NormalisasiMatrik::class, 'id_kriteria');
     }
+
+    public function matriks_tertimbang()
+    {
+        return $this->hasOne(MatriksTertimbang::class, 'id_kriteria');
+    }
 }

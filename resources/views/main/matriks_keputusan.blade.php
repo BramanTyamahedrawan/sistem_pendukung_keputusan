@@ -45,12 +45,11 @@
                                                                         ->where('id_kriteria', $kriteria->id)
                                                                         ->first();
 
-                                                                    $formattedValue = $nilai ? number_format($nilai->nilai, $nilai->nilai != (int) $nilai->nilai ? 4 : 0, '.', '') : '';
-                                                                    $trimmedValue = rtrim(rtrim($formattedValue, '0'), '.');
+                                                                    $formattedValue = $nilai ? number_format($nilai->nilai, $nilai->nilai != 0 && $nilai->nilai != (int) $nilai->nilai ? 4 : 0, '.', '') : '';
                                                                 @endphp
-                                                                <input type="number" step="any"
+                                                                <input type="number" class="form-control" step="any"
                                                                     name="nilai_matriks[{{ $alternatif->id }}][{{ $kriteria->id }}]"
-                                                                    value="{{ $trimmedValue }}" />
+                                                                    value="{{ $formattedValue }}" />
                                                             </td>
                                                         @endforeach
                                                     </tr>

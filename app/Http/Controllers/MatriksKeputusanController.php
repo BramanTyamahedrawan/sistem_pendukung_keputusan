@@ -8,6 +8,7 @@ use App\Models\Kriteria;
 use Illuminate\Support\Facades\DB;
 use App\Models\NormalisasiMatrik;
 use App\Models\Alternatif;
+use App\Models\MatriksTertimbang;
 use App\Http\Requests\StoreMatriksKeputusanRequest;
 use App\Http\Requests\UpdateMatriksKeputusanRequest;
 use Illuminate\Support\Facades\Redis;
@@ -65,12 +66,13 @@ class MatriksKeputusanController extends Controller
             }
         }
 
+        // Step 2: Calculate and store normalized values in NormalisasiMatrik table
         foreach ($kriterias as $kriteria) {
-            $maxValue = $kriteria->jenis_kriteria ? // If jenis_kriteria is true (cost)
+            $maxValue = $kriteria->jenis_kriteria ?
                 DB::table('matriks_keputusans')->where('id_kriteria', $kriteria->id)->min('nilai') :
                 DB::table('matriks_keputusans')->where('id_kriteria', $kriteria->id)->max('nilai');
 
-            $minValue = $kriteria->jenis_kriteria ? // If jenis_kriteria is true (cost)
+            $minValue = $kriteria->jenis_kriteria ?
                 DB::table('matriks_keputusans')->where('id_kriteria', $kriteria->id)->max('nilai') :
                 DB::table('matriks_keputusans')->where('id_kriteria', $kriteria->id)->min('nilai');
 
@@ -85,8 +87,7 @@ class MatriksKeputusanController extends Controller
                 $minValue = MatriksKeputusan::where('id_kriteria', $kriteriaId)->value('min');
 
                 $normalizedValue = $kriteria->jenis_kriteria ?
-                    (($maxValue - $value) / ($maxValue - $minValue)) : // If jenis_kriteria is true (cost)
-                    (($value - $minValue) / ($maxValue - $minValue)); // If jenis_kriteria is false (benefit)
+                    (($maxValue - $value) / ($maxValue - $minValue)) : (($value - $minValue) / ($maxValue - $minValue));
 
                 // Store normalized value in NormalisasiMatrik table
                 NormalisasiMatrik::updateOrCreate(
@@ -94,6 +95,25 @@ class MatriksKeputusanController extends Controller
                     ['nilai' => $normalizedValue]
                 );
             }
+        }
+
+        // Step 3: Calculate and store weighted values in MatriksTertimbang table
+        foreach ($matrixValues as $alternatifId => $kriteriaValues) {
+            $weightedValues = [];
+            foreach ($kriteriaValues as $kriteriaId => $value) {
+                $bobotKriteria = Kriteria::find($kriteriaId)->bobot_kriteria;
+                $normalizedValue = NormalisasiMatrik::where('id_alternatif', $alternatifId)
+                    ->where('id_kriteria', $kriteriaId)
+                    ->value('nilai');
+                $weightedValues[] = [
+                    'id_alternatif' => $alternatifId,
+                    'id_kriteria' => $kriteriaId,
+                    'nilai' => ($bobotKriteria * $normalizedValue) + $bobotKriteria,
+                ];
+            }
+
+            // Store weighted values in MatriksTertimbang table
+            MatriksTertimbang::upsert($weightedValues, ['id_alternatif', 'id_kriteria'], ['nilai']);
         }
 
         return redirect()->back()->with('success', 'Nilai matriks berhasil disimpan');
@@ -146,24 +166,6 @@ class MatriksKeputusanController extends Controller
 
     //     return redirect()->back()->with('success', 'Nilai matriks berhasil disimpan');
     // }
-
-
-    // public function store(Request $request)
-    // {
-    //     $matrixValues = $request->input('nilai_matriks');
-
-    //     foreach ($matrixValues as $alternatifId => $kriteriaValues) {
-    //         foreach ($kriteriaValues as $kriteriaId => $value) {
-    //             MatriksKeputusan::updateOrCreate(
-    //                 ['id_alternatif' => $alternatifId, 'id_kriteria' => $kriteriaId],
-    //                 ['nilai' => $value]
-    //             );
-    //         }
-    //     }
-
-    //     return redirect()->back()->with('success', 'Nilai matriks berhasil disimpan');
-    // }
-
 
     /**
      * Display the specified resource.
