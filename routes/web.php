@@ -8,6 +8,7 @@ use App\Http\Controllers\MatriksKeputusanController;
 use App\Http\Controllers\NormalisasiMatrikController;
 use App\Http\Controllers\MatriksTertimbangController;
 use App\Http\Controllers\MatriksAreaController;
+use App\Http\Controllers\MatriksJarakController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,7 @@ Route::resource('matriks_keputusan', MatriksKeputusanController::class);
 Route::resource('normalisasi_matriks', NormalisasiMatrikController::class);
 Route::resource('matriks_tertimbang', MatriksTertimbangController::class);
 Route::resource('matriks_area', MatriksAreaController::class);
+Route::resource('matriks_jarak', MatriksJarakController::class);
 Route::get('studi-kasus/{id}/alternatif', [StudiKasusController::class, 'showAlternatif'])->name('studi-kasus.alternatif');
 Route::get('studi-kasus/{id}/kriteria', [StudiKasusController::class, 'showKriteria'])->name('studi-kasus.kriteria');
 Route::post('/tambah-alternatif', [AlternatifController::class, 'tambahAlternatif'])->name('tambah.alternatif');

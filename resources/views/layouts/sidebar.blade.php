@@ -45,7 +45,7 @@
 
                 <li class="sidebar-item">
                     <a href="{{ route('studi-kasus.index') }}" class='sidebar-link'>
-                        <i class="bi bi-grid-fill"></i>
+                        <i class="bi bi-grid"></i>
                         <span>Studi Kasus</span>
                     </a>
                 </li>
@@ -59,13 +59,13 @@
 
                 <li class="sidebar-item">
                     <a href="{{ route('normalisasi_matriks.index') }}" class='sidebar-link'>
-                        <i class="bi bi-collection-fill"></i>
+                        <i class="bi bi-collection"></i>
                         <span>Normalisasi Matriks</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
                     <a href="{{ route('matriks_tertimbang.index') }}" class='sidebar-link'>
-                        <i class="bi bi-hexagon-fill"></i>
+                        <i class="bi bi-hexagon"></i>
                         <span>Matriks Tertimbang</span>
                     </a>
                 </li>
@@ -73,6 +73,12 @@
                     <a href="{{ route('matriks_area.index') }}" class='sidebar-link'>
                         <i class="bi bi-journal-check"></i>
                         <span>Matriks Area Perkiraan</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="{{ route('matriks_jarak.index') }}" class='sidebar-link'>
+                        <i class="bi bi-bar-chart"></i>
+                        <span>Matriks Jarak Elemen</span>
                     </a>
                 </li>
             </ul>

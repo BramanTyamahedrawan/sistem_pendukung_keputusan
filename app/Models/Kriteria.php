@@ -40,4 +40,9 @@ class Kriteria extends Model
     {
         return $this->hasOne(MatriksArea::class, 'id_kriteria');
     }
+
+    public function matriks_jarak()
+    {
+        return $this->hasOne(MatriksJarak::class, 'id_kriteria');
+    }
 }

@@ -10,6 +10,7 @@ use App\Models\NormalisasiMatrik;
 use App\Models\Alternatif;
 use App\Models\MatriksTertimbang;
 use App\Models\MatriksArea;
+use App\Models\MatriksJarak;
 use App\Http\Requests\StoreMatriksKeputusanRequest;
 use App\Http\Requests\UpdateMatriksKeputusanRequest;
 use Illuminate\Support\Facades\Redis;
@@ -139,6 +140,28 @@ class MatriksKeputusanController extends Controller
                 ['id_kriteria' => $kriteria->id],
                 ['nilai' => $matriksArea, 'nilai_matriks_m' => $nilaiMatriksM]
             );
+        }
+
+        // Step 5: Calculate and store distance values in MatriksJarak table
+        foreach ($matrixValues as $alternatifId => $kriteriaValues) {
+            foreach ($kriteriaValues as $kriteriaId => $value) {
+                // Get weighted value from MatriksTertimbang
+                $weightedValueTertimbang = MatriksTertimbang::where('id_alternatif', $alternatifId)
+                    ->where('id_kriteria', $kriteriaId)
+                    ->value('nilai');
+
+                // Get value from MatriksArea
+                $valueMatriksArea = MatriksArea::where('id_kriteria', $kriteriaId)->value('nilai');
+
+                // Calculate the distance
+                $jarak = $weightedValueTertimbang - $valueMatriksArea;
+
+                // Store or update distance values in MatriksJarak table
+                MatriksJarak::updateOrCreate(
+                    ['id_alternatif' => $alternatifId, 'id_kriteria' => $kriteriaId],
+                    ['nilai' => $jarak]
+                );
+            }
         }
 
         return redirect()->back()->with('success', 'Nilai matriks berhasil disimpan');

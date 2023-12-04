@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\MatriksJarak;
 use App\Http\Requests\StoreMatriksJarakRequest;
 use App\Http\Requests\UpdateMatriksJarakRequest;
+use App\Models\Alternatif;
+use App\Models\Kriteria;
 
 class MatriksJarakController extends Controller
 {
@@ -13,7 +15,11 @@ class MatriksJarakController extends Controller
      */
     public function index()
     {
-        //
+        $alternatifs = Alternatif::all();
+        $kriterias = Kriteria::all();
+        $matriksJaraks = MatriksJarak::all();
+
+        return view('main.matriks_jarak', compact('alternatifs', 'kriterias', 'matriksJaraks'));
     }
 
     /**
