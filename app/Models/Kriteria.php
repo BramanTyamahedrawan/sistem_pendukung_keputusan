@@ -35,4 +35,9 @@ class Kriteria extends Model
     {
         return $this->hasOne(MatriksTertimbang::class, 'id_kriteria');
     }
+
+    public function matriks_area()
+    {
+        return $this->hasOne(MatriksArea::class, 'id_kriteria');
+    }
 }
