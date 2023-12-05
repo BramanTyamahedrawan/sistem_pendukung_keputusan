@@ -49,7 +49,8 @@
                                                                     $formattedValue = rtrim(rtrim($formattedValue, '0'), '.');
                                                                 }
                                                             @endphp
-                                                            <input type="number" step="any" disabled
+                                                            <input type="number" class="form-control" step="any"
+                                                                disabled
                                                                 name="nilai_matriks[{{ $alternatif->id }}][{{ $kriteria->id }}]"
                                                                 value="{{ $formattedValue }}" />
                                                         </td>

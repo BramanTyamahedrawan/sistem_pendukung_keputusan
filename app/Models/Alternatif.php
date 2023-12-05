@@ -39,4 +39,9 @@ class Alternatif extends Model
     {
         return $this->hasOne(MatriksJarak::class, 'id_alternatif');
     }
+
+    public function matriks_perangkingan()
+    {
+        return $this->hasOne(MatriksPerangkingan::class, 'id_alternatif');
+    }
 }

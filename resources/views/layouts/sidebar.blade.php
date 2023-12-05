@@ -81,6 +81,12 @@
                         <span>Matriks Jarak Elemen</span>
                     </a>
                 </li>
+                <li class="sidebar-item">
+                    <a href="{{ route('matriks_perangkingan.index') }}" class='sidebar-link'>
+                        <i class="bi bi-map"></i>
+                        <span>Matriks Perangkingan</span>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

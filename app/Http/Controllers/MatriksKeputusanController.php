@@ -11,6 +11,7 @@ use App\Models\Alternatif;
 use App\Models\MatriksTertimbang;
 use App\Models\MatriksArea;
 use App\Models\MatriksJarak;
+use App\Models\MatriksPerangkingan;
 use App\Http\Requests\StoreMatriksKeputusanRequest;
 use App\Http\Requests\UpdateMatriksKeputusanRequest;
 use Illuminate\Support\Facades\Redis;
@@ -162,6 +163,28 @@ class MatriksKeputusanController extends Controller
                     ['nilai' => $jarak]
                 );
             }
+        }
+
+        // Step 6: Calculate and store ranking values in MatriksPerangkingan table
+        foreach ($matrixValues as $alternatifId => $kriteriaValues) {
+            // Initialize total ranking value for the current alternatif
+            $totalRanking = 0;
+
+            foreach ($kriteriaValues as $kriteriaId => $value) {
+                // Get distance value from MatriksJarak
+                $jarak = MatriksJarak::where('id_alternatif', $alternatifId)
+                    ->where('id_kriteria', $kriteriaId)
+                    ->value('nilai');
+
+                // Add the distance value to the total ranking
+                $totalRanking += $jarak;
+            }
+
+            // Store ranking value in MatriksPerangkingan table
+            MatriksPerangkingan::updateOrCreate(
+                ['id_alternatif' => $alternatifId],
+                ['nilai' => $totalRanking]
+            );
         }
 
         return redirect()->back()->with('success', 'Nilai matriks berhasil disimpan');
