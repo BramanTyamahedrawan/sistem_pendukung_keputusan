@@ -27,16 +27,16 @@
                                         <table class="table table-bordered mb-0">
                                             <thead>
                                                 <tr>
-                                                    <th>Kode</th>
+                                                    <th class="text-center">Kode</th>
                                                     @foreach ($kriterias as $kriteria)
-                                                        <th>{{ $kriteria->kode_kriteria }}</th>
+                                                        <th class="text-center">{{ $kriteria->kode_kriteria }}</th>
                                                     @endforeach
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 @forelse ($alternatifs as $alternatif)
                                                     <tr>
-                                                        <td>{{ $alternatif->kode_alternatif }}</td>
+                                                        <td class="text-center">{{ $alternatif->kode_alternatif }}</td>
                                                         @foreach ($kriterias as $kriteria)
                                                             <td>
                                                                 @php
@@ -60,9 +60,9 @@
                                                     </tr>
                                                 @endforelse
                                                 <tr>
-                                                    <td>MAX</td>
+                                                    <td class="text-center">MAX</td>
                                                     @foreach ($kriterias as $kriteria)
-                                                        <td>
+                                                        <td class="text-center">
                                                             @php
                                                                 $formattedValue = number_format($maxValues[$kriteria->id], 4, '.', '');
                                                                 $trimmedValue = rtrim(rtrim($formattedValue, '0'), '.');
@@ -72,9 +72,9 @@
                                                     @endforeach
                                                 </tr>
                                                 <tr>
-                                                    <td>MIN</td>
+                                                    <td class="text-center">MIN</td>
                                                     @foreach ($kriterias as $kriteria)
-                                                        <td>
+                                                        <td class="text-center">
                                                             @php
                                                                 $formattedValue = number_format($minValues[$kriteria->id], 4, '.', '');
                                                                 $trimmedValue = rtrim(rtrim($formattedValue, '0'), '.');

@@ -25,7 +25,7 @@
                                         <thead>
                                             <tr>
                                                 <th>Nilai Matriks M</th>
-                                                <th>{{ $matriksM }}</th>
+                                                <th class="text-center">{{ $matriksM }}</th>
                                             </tr>
                                         </thead>
                                     </table>
@@ -36,7 +36,7 @@
                                             <tr>
                                                 <th>Kode</th>
                                                 @foreach ($kriterias as $kriteria)
-                                                    <th>{{ $kriteria->nama_kriteria }}</th>
+                                                    <th class="text-center">{{ $kriteria->kode_kriteria }}</th>
                                                 @endforeach
                                             </tr>
                                         </thead>
@@ -44,7 +44,7 @@
                                             <tr>
                                                 <td>Matriks G</td>
                                                 @foreach ($matriksAreas as $matriksArea)
-                                                    <td>{{ $matriksArea->nilai }}</td>
+                                                    <td class="text-center">{{ $matriksArea->nilai }}</td>
                                                 @endforeach
                                             </tr>
                                         </tbody>

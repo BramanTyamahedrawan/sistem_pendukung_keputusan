@@ -24,16 +24,16 @@
                                     <table class="table table-bordered mb-0">
                                         <thead>
                                             <tr>
-                                                <th>Kode</th>
+                                                <th class="text-center">Kode</th>
                                                 @foreach ($kriterias as $kriteria)
-                                                    <th>{{ $kriteria->nama_kriteria }}</th>
+                                                    <th class="text-center">{{ $kriteria->kode_kriteria }}</th>
                                                 @endforeach
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @forelse ($alternatifs as $alternatif)
                                                 <tr>
-                                                    <td>{{ $alternatif->nama_alternatif }}</td>
+                                                    <td class="text-center">{{ $alternatif->kode_alternatif }}</td>
                                                     @foreach ($kriterias as $kriteria)
                                                         <td>
                                                             @php
