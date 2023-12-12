@@ -7,7 +7,8 @@
     <div class="page-heading">
         <div class="page-title mb-2">
             <div class="row mb-5 ">
-                <h3>Studi Kasus Pemilihan Pengajar Dengan Kinerja Terbaik Pada Sekolah Dasar (SD)</h3>
+                <h3>Sistem Pendukung Keputusan Pemilihan Karyawan Terbaik Dengan
+                    Menggunakan Metode MABAC </h3>
             </div>
         </div>
 
@@ -84,14 +85,14 @@
                                         </thead>
                                         <tbody>
                                             @forelse ($alternatifs->sortByDesc(function ($alternatif) use ($matriksPerangkingans) {
-                                                                                    $nilai = $matriksPerangkingans->where('id_alternatif', $alternatif->id)->first();
+                                                                                        $nilai = $matriksPerangkingans->where('id_alternatif', $alternatif->id)->first();
 
-                                                                                    if ($nilai && $nilai->nilai == 0.0) {
-                                                                                        return 0;
-                                                                                    } else {
-                                                                                        return $nilai ? $nilai->nilai : 0;
-                                                                                    }
-                                                                                }) as $alternatif)
+                                                                                        if ($nilai && $nilai->nilai == 0.0) {
+                                                                                            return 0;
+                                                                                        } else {
+                                                                                            return $nilai ? $nilai->nilai : 0;
+                                                                                        }
+                                                                                    }) as $alternatif)
                                                 <td class="text-center">{{ $alternatif->kode_alternatif }}</td>
                                                 <td class="text-center">{{ $alternatif->nama_alternatif }}</td>
                                                 <td class="text-center">

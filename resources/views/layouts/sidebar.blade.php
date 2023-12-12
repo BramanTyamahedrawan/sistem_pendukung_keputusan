@@ -41,6 +41,13 @@
                 <li class="sidebar-title">Menu</li>
 
                 <li class="sidebar-item">
+                    <a href="{{ route('jurnal.index') }}" class='sidebar-link'>
+                        <i class=" bi bi-book"></i>
+                        <span>Jurnal</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item">
                     <a href="{{ route('studi-kasus.index') }}" class='sidebar-link'>
                         <i class="bi bi-grid"></i>
                         <span>Studi Kasus</span>

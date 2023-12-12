@@ -10,6 +10,7 @@ use App\Http\Controllers\MatriksTertimbangController;
 use App\Http\Controllers\MatriksAreaController;
 use App\Http\Controllers\MatriksJarakController;
 use App\Http\Controllers\MatriksPerangkinganController;
+use App\Http\Controllers\JurnalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,3 +46,4 @@ Route::get('/get-kriteria/{id}', [KriteriaController::class, 'getKriteria'])->na
 Route::post('/edit-kriteria', [KriteriaController::class, 'editKriteria'])->name('edit.kriteria');
 Route::delete('/delete-alternatif/{id}', [AlternatifController::class, 'destroyAlternatif'])->name('delete.alternatif');
 Route::delete('/delete-kriteria/{id}', [KriteriaController::class, 'destroyKriteria'])->name('delete.kriteria');
+Route::get('/jurnal', [JurnalController::class, 'index'])->name('jurnal.index');

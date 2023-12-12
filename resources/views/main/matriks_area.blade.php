@@ -7,7 +7,8 @@
     <div class="page-heading">
         <div class="page-title mb-2">
             <div class="row mb-5 ">
-                <h3>Studi Kasus Pemilihan Pengajar Dengan Kinerja Terbaik Pada Sekolah Dasar (SD)</h3>
+                <h3>Sistem Pendukung Keputusan Pemilihan Karyawan Terbaik Dengan
+                    Menggunakan Metode MABAC </h3>
             </div>
         </div>
 

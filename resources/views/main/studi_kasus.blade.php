@@ -77,22 +77,17 @@
     <div class="page-heading">
         <div class="page-title mb-2">
             <div class="row mb-5 ">
-                <h3>Studi Kasus Pemilihan Pengajar Dengan Kinerja Terbaik Pada
-                    Sekolah Dasar (SD) </h3>
-                <p class="text-subtitle text-muted col-8 col-md-12 mt-3">Studi kasus yang diterapkan dalam penelitian ini
-                    adalah
-                    Pemilihan
-                    Pengajar Dengan Kinerja Terbaik Pada
-                    Sekolah Dasar (SD). Yang dimana proses penentuan serta penilaian pengajar terbaik tidak sesuai
-                    dengan kriteria-kriteria kinerja setiap guru, melainkan hanya dari pendapat-pendapat pengajar
-                    lainnya yg tidak relevan. Dalam
-                    penentuan pengajar terbaik memang tidak mudah menentukannya. Maka dari itu untuk mengatasi kasus
-                    tersebut,
-                    sebuah sistem pendukung keputusan sangat diperlukan tujuannya untuk memilih pengajar yang memiliki
-                    kinerja
-                    terbaik dengan maksud agar pengajar dapat menjalankan tugasnya dengan sebaik-baiknya sehingga dapat
-                    diambil
-                    keputusan yang optimal dan relevan. </p>
+                <h3>Sistem Pendukung Keputusan Pemilihan Karyawan Terbaik Dengan
+                    Menggunakan Metode MABAC </h3>
+                <p class="text-subtitle text-muted col-8 col-md-12 mt-3">Dalam Analisa dan Penerapan Metode ini penulis akan
+                    menjelaskan bagaimana kasus ini dapat diselesaikan dengan
+                    menggunakan metode MABAC dari langkah awal hingga akhir proses perangkingan. Berdasarkan penelitian yang
+                    sudah dilakukan oleh penulis dapat diketahui bahwa terdapat permasalahan dalam pemilihan karyawan
+                    terbaik di
+                    1001 Mart karena mereka tidak memiliki sistem dalam melakukan pemilihan. Untuk mengatasi permasalahan
+                    tersebut maka penulis membangun sebuah aplikasi sistem pendukung keputusan pemilihan karyawan terbaik
+                    dengan
+                    menggunakan metode MABAC</p>
             </div>
         </div>
 
